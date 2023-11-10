@@ -11,7 +11,7 @@ async function bootstrap() {
     .addTag('skinsight')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api-docs/v1', app, document);
   await app.listen(3000);
 }
 bootstrap();
