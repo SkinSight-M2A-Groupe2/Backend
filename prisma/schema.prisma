@@ -191,9 +191,9 @@ model sessions {
   factor_id      String?          @db.Uuid
   aal            aal_level?
   not_after      DateTime?        @db.Timestamptz(6)
+  ip             String?          @db.Inet
   refreshed_at   DateTime?        @db.Timestamp(6)
   user_agent     String?
-  ip             String?          @db.Inet
   mfa_amr_claims mfa_amr_claims[]
   refresh_tokens refresh_tokens[]
   users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
@@ -329,6 +329,7 @@ model objects {
   @@schema("storage")
 }
 
+
 enum aal_level {
   aal1
   aal2
@@ -358,18 +359,27 @@ enum factor_type {
   @@schema("auth")
 }
 
-//NOS MODELS
+// NOS SCHEMAS
 model UserProfiles {
-    id        String   @id @db.Uuid
-    username  String?  @unique
-    fullName  String?  @map("full_name")
-    email     String?
-    phone     String?
-    avatarUrl String?  @map("avatar_url")
-    website   String?
-    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  id        String   @id @db.Uuid
+  username  String?  @unique
+  fullName  String?  @map("full_name")
+  email     String?
+  phone     String?
+  avatarUrl String?  @map("avatar_url")
+  website   String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-    @@map("user_profiles")
-    @@schema("public")
+  @@map("user_profiles")
+  @@schema("public")
+}
+
+enum UserRoles {
+  admin
+  user
+  dermato
+  patient
+  doctor
+  @@schema("public")
 }
