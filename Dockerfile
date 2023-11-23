@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json .
 
 # La commande EXPOSE n'a aucun effet sur le conteneur, elle permet juste de documenter le port sur lequel notre application va écouter
-EXPOSE 3000
+EXPOSE 5000
 
 # Mise en place de plusieurs environnements grâce à la particularité de la commande FROM
 # On peut mettre en place plusieurs environnements dans un seul Dockerfile sans que l'un interfère avec l'autre
@@ -34,6 +34,6 @@ COPY . .
 # On indique à notre conteneur quelle commande il doit lancer quand on le démarre
 # Ici, on lance la commande npm run dev lors du déploiement du conteneur
 # npm run start est une commande qui est définie dans le fichier package.json
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
 
 FROM base AS production

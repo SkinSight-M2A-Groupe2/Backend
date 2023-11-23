@@ -1,5 +1,5 @@
 # Même principe que le .gitignore, mais pour éviter de copier des fichiers non voulus dans le conteneur docker
-node_modules
+node_modules/
 Dockerfile
 .dockerignore
 .gitignore
