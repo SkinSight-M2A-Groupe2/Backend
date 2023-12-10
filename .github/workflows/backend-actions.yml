@@ -1,0 +1,26 @@
+# Optional - The name of the workflow as it will appear in the "Actions" tab of the GitHub repository. 
+# If this field is omitted, the name of the workflow file will be used instead.
+name: backend-workflow
+
+# Specifies the trigger for this workflow. This example uses the push event, so a workflow run is triggered every time someone pushes a change to the repository or merges a pull request. 
+# This is triggered by a push to the main and the github-actions-backend branches;
+on:
+    push:
+        branches:
+            - github-actions-backend
+            - main
+
+jobs:
+
+    # Defines a job named test1. The child keys will define properties of the job.  
+    test1:
+
+        # Configures the job to run on the latest version of an Ubuntu Linux runner. 
+        # This means that the job will execute on a fresh virtual machine hosted by GitHub
+        runs-on: ubuntu-latest
+        
+        # Groups together all the steps that run in the test1 job. 
+        # Each item nested under this section is a separate action or shell script.
+        steps:
+            - name: hello-world
+              run: echo "Hello World"

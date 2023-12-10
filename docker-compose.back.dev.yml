@@ -17,7 +17,7 @@ services:
       # on précise le dossier app/node_modules pour éviter de l'overrider
       # ce volume est anonyme, on le reconnaît car on ne donne que le chemin du dossier dans le conteneur
       - /app/node_modules
-    # on précise le fichier .env à utiliser pour le conteneur de manière à ce que les variables d'environnement soient bien définies sans mettre le fichier .env dans le conteneur
+    # on précise le fichier .env à utiliser afin d'avoir accès aux variables d'environnement sans le mettre dans le conteneur
     env_file: .env
     # commande pour lancer le serveur en mode dev, cette commande sera prioritaire à la commande se trouvant dans le dockerfile
     command: npm start
