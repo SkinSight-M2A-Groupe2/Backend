@@ -21,6 +21,8 @@ jobs:
         # Each item nested under this section is a separate action or shell script.
         steps:
             - uses: actions/checkout@v4
+            - name: 'Create env file'
+              run: echo "${{ secrets.SkinSightEnv }}" > .env
 
             - name: launch docker-compose backend
               run: docker-compose -f docker-compose.back.dev.yml up --build
