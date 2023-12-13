@@ -22,10 +22,8 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: 'Create env file'
-              run: echo "${{ secrets.*}}" > .env
-
-            - name: 'Show env file'
-              run: echo .env
+              run: | 
+                echo "${{ secrets.* }}" >> .env
 
             - name: launch docker-compose backend
               run: docker-compose -f docker-compose.back.dev.yml up --build
