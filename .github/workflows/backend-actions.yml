@@ -22,19 +22,18 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            # - name: 'put secrets in variables'
-            #   run: |
-            #     echo "$ALLMYSECRETS"
-            #   shell: bash
-            #   env:
-            #     ALLMYSECRETS: ${{ toJSON(secrets) }}
+            - name: 'put secrets in variables'
+              run: |
+                echo "$ALLMYSECRETS"
+              shell: bash
+              env:
+                ALLMYSECRETS: ${{ toJSON(secrets) }}
               
-            # - name: 'create .env file'
-            #   run: |
-            #     echo $ALLMYSECRETS >> .env
             - name: 'create .env file'
               run: |
-                echo '${{ toJSON(secrets) }}' | jq -r 'keys[] as $k | "\($k)=\(.[$k])"' >> .env
+                  touch .env
+                  echo $ALLMYSECRETS
+                  echo $ALLMYSECRETS >> .env
 
 
             - name: launch docker-compose backend"
