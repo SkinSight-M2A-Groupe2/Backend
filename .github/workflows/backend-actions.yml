@@ -21,11 +21,19 @@ jobs:
         # Each item nested under this section is a separate action or shell script.
         steps:
             - uses: actions/checkout@v4
-            - name: 'Create env file'
-              run: | 
-                echo "${{ toJSON(secrets) }}" >> .env
 
-            - name: launch docker-compose backend
+            - name: 'put secrets in variables'
+              run: |
+                echo "$ALLMYSECRETS
+              shell: bash
+              env:
+                ALLMYSECRETS: ${{ toJSON(secrets) }}
+              
+            - name: 'create .env file'
+              run: |
+                echo "$ALLMYSECRETS" > .env
+
+            - name: launch docker-compose backend"
               run: docker-compose -f docker-compose.back.dev.yml up --build
 
             - name: run tests in container
