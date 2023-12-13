@@ -31,7 +31,7 @@ jobs:
               
             - name: 'create .env file'
               run: |
-                echo $ALLMYSECRETS >> .env
+                echo `"$ALLMYSECRETS"` >> .env
 
             - name: launch docker-compose backend"
               run: docker-compose -f docker-compose.back.dev.yml up --build
