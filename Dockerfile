@@ -36,4 +36,16 @@ COPY . .
 # npm run start est une commande qui est définie dans le fichier package.json
 CMD ["npm", "start"]
 
+################################################################################
+
 FROM base AS production
+
+################################################################################
+
+FROM base AS test
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "test"]

@@ -6,3 +6,4 @@ Dockerfile
 .git
 docker-compose*
 .env
+.gihub/
