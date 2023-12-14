@@ -26,8 +26,5 @@ jobs:
               run: |
                   echo "${{ secrets.ALL_ENV_VARIABLES }}" > .env
 
-            # - name: launch docker-compose backend"
-            #   run: docker-compose -f docker-compose.back.dev.yml up --build
-
             - name: run tests in container
-              run: npm run test
+              run: docker compose -f docker-compose.back.test.yml up --build
