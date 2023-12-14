@@ -12,7 +12,7 @@ on:
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
-    test1:
+    development-container:
         # Configures the job to run on the latest version of an Ubuntu Linux runner. 
         # This means that the job will execute on a fresh virtual machine hosted by GitHub
         runs-on: ubuntu-latest
