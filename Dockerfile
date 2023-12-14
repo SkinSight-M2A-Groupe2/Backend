@@ -1,7 +1,7 @@
 # Le dockefile permet de pouvoir mettre tout notre code source et nos dépendances dans le conteneur qu'on va créer
 
 # On va utiliser l'image node comme base
-FROM node:20.9 AS base
+FROM node:21.3-bullseye-slim AS base
 
 # Crée un dossier app dans le conteneur
 # Toutes les commandes qu'on lancera après seront exécutées dans ce dossier
