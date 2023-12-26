@@ -43,9 +43,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@master
-            - uses: snyk/actions/node@master
             - name: Run Snyk to check for vulnerabilities in code
-
-              run: | 
-                snyk auth ${{ secrets.SNYK_TOKEN }}
-                echo "${{ secrets.SNYK_TOKEN }}"
+              uses: snyk/actions/node@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
