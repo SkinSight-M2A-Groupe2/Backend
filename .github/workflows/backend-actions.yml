@@ -2,11 +2,18 @@
 # If this field is omitted, the name of the workflow file will be used instead.
 name: backend-workflow
 
+# Le contexte env contient les variables d'environnement qui seront utilisées dans le workflow
+env:
+    DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/docker-implementation' }}${{ github.sha }}
+    GITHUB_REGISTRY: ghcr.io
+    GITHUB_REPOSITORY: ${{ github.repository }}
+
 # Specifies the trigger for this workflow. This example uses the push event, so a workflow run is triggered every time someone pushes a change to the repository or merges a pull request. 
 # This is triggered by a push to the main and the github-actions-backend branches;
 on:
     push:
         branches:
+            - docker-implementation
             - github-actions-backend
             - main
 
@@ -23,8 +30,16 @@ jobs:
             - uses: actions/checkout@v4
 
             - name: 'Create env file'
+            # On copie tous les secrets contenus dans le repo dans un fichier .env
               run: |
                   echo "${{ secrets.ALL_ENV_VARIABLES }}" > .env
 
             - name: run tests in container
               run: docker compose -f docker-compose.back.test.yml up --build
+
+            - name: Run Snyk to check for vulnerabilities in code
+              uses: snyk/actions/node@master
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+              with:
+                command: monitor
