@@ -36,10 +36,12 @@ jobs:
 
             - name: run tests in container
               run: docker compose -f docker-compose.back.test.yml up --build
+    
+    security-check:
+        
+        runs-on: ubuntu-latest
 
-            - name: Stop test container
-              run: exit
-
+        steps:
             - name: Run Snyk to check for vulnerabilities in code
               uses: snyk/actions/node@master
               env:
