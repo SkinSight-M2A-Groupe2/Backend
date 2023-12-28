@@ -43,10 +43,7 @@ jobs:
 
         steps:
             - uses: actions/checkout@master
-            - name: 'look for snyk token'
-              run: |
-                  echo "${{ secrets.SNYK_TOKEN_ENV_VARIABLE }}"
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
               env:
-                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN_ENV_VARIABLE }}
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
