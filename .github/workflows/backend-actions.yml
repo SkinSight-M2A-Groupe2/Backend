@@ -51,7 +51,6 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: env
-                path: .env
 
             - name: Build the Docker image with docker-compose
               run: |
@@ -98,7 +97,6 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: env
-                path: .env
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
