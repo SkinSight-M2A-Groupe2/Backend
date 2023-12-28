@@ -32,7 +32,7 @@ jobs:
               run: docker compose -f docker-compose.back.test.yml up --build
 
             - name: "upload env file to use it in the deploy job"
-              uses: actions/upload-artifact@v2
+              uses: actions/upload-artifact@v4
               with:
                 name: env
                 path: .env
@@ -45,11 +45,17 @@ jobs:
 
         steps:
             - name : Checkout the repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
+
+            - name: "download env file to add it to the container"
+              uses: actions/download-artifact@v4
+              with:
+                name: env
+                path: .env
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml --build
+                    docker-compose -f docker-compose.back.dev.yml build
                 
     security-check:
         
@@ -80,7 +86,7 @@ jobs:
 
         steps:
             - name: Checkout the repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Login to DockerHub
               uses: docker/login-action@v3
@@ -89,7 +95,7 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
             
             - name: "download env file to add it to the container"
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v4
               with:
                 name: env
                 path: .env
