@@ -49,7 +49,7 @@ jobs:
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.yml build
+                    docker-compose -f docker-compose.back.dev.yml --build
                 
     security-check:
         
