@@ -2,12 +2,6 @@
 # If this field is omitted, the name of the workflow file will be used instead.
 name: backend-workflow
 
-# Le contexte env contient les variables d'environnement qui seront utilisées dans le workflow
-env:
-    DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/docker-implementation' }}${{ github.sha }}
-    GITHUB_REGISTRY: ghcr.io
-    GITHUB_REPOSITORY: ${{ github.repository }}
-
 # Specifies the trigger for this workflow. This example uses the push event, so a workflow run is triggered every time someone pushes a change to the repository or merges a pull request. 
 # This is triggered by a push to the main and the github-actions-backend branches;
 on:
@@ -19,7 +13,7 @@ on:
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
-    development-container:
+    test:
         # Configures the job to run on the latest version of an Ubuntu Linux runner. 
         # This means that the job will execute on a fresh virtual machine hosted by GitHub
         runs-on: ubuntu-latest
@@ -36,10 +30,31 @@ jobs:
 
             - name: run tests in container
               run: docker compose -f docker-compose.back.test.yml up --build
-    
+
+            - name: "upload env file to use it in the deploy job"
+              uses: actions/upload-artifact@v2
+              with:
+                name: env
+                path: .env
+             
+            
+    build-docker-image:
+
+        runs-on: ubuntu-latest
+        needs: test
+
+        steps:
+            - name : Checkout the repository
+              uses: actions/checkout@v2
+
+            - name: Build the Docker image with docker-compose
+              run: |
+                    docker-compose -f docker-compose.back.yml build
+                
     security-check:
         
         runs-on: ubuntu-latest
+        needs: build-docker-image
 
         steps:
             - uses: actions/checkout@master
@@ -50,3 +65,35 @@ jobs:
               with:
                 command: test
             
+            - name: Scan the built image for vulnerabilities
+              uses: snyk/actions/docker@master
+              with: 
+                image: backend-skin-sight-backend:latest
+                args: --file=docker-compose.back.yml
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+            
+    deploy-to-dockerhub:
+
+        runs-on: ubuntu-latest
+        needs: security-check
+
+        steps:
+            - name: Checkout the repository
+              uses: actions/checkout@v2
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v3
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+            
+            - name: "download env file to add it to the container"
+              uses: actions/download-artifact@v2
+              with:
+                name: env
+                path: .env
+                
+            - name: Push the Docker image to the DockerHub registry
+              run: |
+                    docker-compose -f docker-compose.back.yml push
