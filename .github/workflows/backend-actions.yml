@@ -73,8 +73,8 @@ jobs:
             - name: Scan the built image for vulnerabilities
               uses: snyk/actions/docker@master
               with: 
-                image: backend-skin-sight-backend:latest
-                args: --file=docker-compose.back.yml
+                image: ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
+                args: --file=docker-compose.back.dev.yml
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
             
