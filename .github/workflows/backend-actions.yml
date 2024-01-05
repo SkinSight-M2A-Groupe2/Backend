@@ -44,7 +44,7 @@ jobs:
     security-check:
         
         runs-on: ubuntu-latest
-        # Attends que le job test soit terminé pour commencer
+        # Attend que le job test soit terminé pour commencer
         needs: test
 
         steps:
@@ -101,4 +101,4 @@ jobs:
               with:
                 push: true
                 tags: |
-                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
+                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}:latest
