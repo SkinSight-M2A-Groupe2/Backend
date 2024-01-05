@@ -38,14 +38,31 @@ jobs:
                 path: .env
              
             
-    build-docker-image:
+    # build-docker-image:
 
+    #     runs-on: ubuntu-latest
+    #     needs: test
+
+    #     steps:
+    #         - name : Checkout the repository
+    #           uses: actions/checkout@v4
+
+    #         - name: "download env file to add it to the container"
+    #           uses: actions/download-artifact@v4
+    #           with:
+    #             name: env
+
+    #         - name: Build the Docker image with docker-compose
+    #           run: |
+    #                 docker-compose -f docker-compose.back.dev.yml build
+                
+    security-check:
+        
         runs-on: ubuntu-latest
-        needs: test
 
         steps:
-            - name : Checkout the repository
-              uses: actions/checkout@v4
+
+            - uses: actions/checkout@master
 
             - name: "download env file to add it to the container"
               uses: actions/download-artifact@v4
@@ -55,19 +72,11 @@ jobs:
             - name: Build the Docker image with docker-compose
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
-                
-    security-check:
-        
-        runs-on: ubuntu-latest
-        needs: build-docker-image
-
-        steps:
-
+            
             - name: check docker image for vulnerabilities
               run: |
                     docker images -a
 
-            - uses: actions/checkout@master
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
               env:
