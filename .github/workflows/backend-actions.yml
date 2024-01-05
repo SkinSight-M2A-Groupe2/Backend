@@ -101,4 +101,4 @@ jobs:
               with:
                 push: true
                 tags: |
-                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}:latest
+                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}/${{ env.DOCKER_IMAGE_TAG }}:latest
