@@ -10,6 +10,10 @@ on:
             - docker-implementation
             - github-actions-backend
             - main
+env:
+    DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/main' || 'refs/heads/docker-implementation' }}
+    GITHUB_REGISTRY: ghcr.io
+    GITHUB_REPOSITORY: ${{ github.repository }}
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
@@ -40,13 +44,14 @@ jobs:
     security-check:
         
         runs-on: ubuntu-latest
+        # Attends que le job test soit terminé pour commencer
         needs: test
 
         steps:
 
             - uses: actions/checkout@master
 
-            - name: "download env file to add it to the container"
+            - name: Download env file created as an artifact to add it to the container
               uses: actions/download-artifact@v4
               with:
                 name: env
@@ -62,7 +67,7 @@ jobs:
               with:
                 command: monitor
             
-            - name: Scan the built image for vulnerabilities ignores issues as they can't be fixed yet
+            - name: Scan the built image for vulnerabilities and ignores issues as they can't be fixed yet
               uses: snyk/actions/docker@master
               continue-on-error: true
               with: 
@@ -92,5 +97,8 @@ jobs:
                 name: env
                 
             - name: Push the Docker image to the DockerHub registry
-              run: |
-                    docker-compose -f docker-compose.back.dev.yml push
+              uses: docker/build-push-action@v3
+              with:
+                push: true
+                tags: |
+                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}:${{ env.DOCKER_IMAGE_TAG }}
