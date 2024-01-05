@@ -12,7 +12,6 @@ on:
             - main
 env:
     DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/main' || 'refs/heads/docker-implementation' }}
-    GITHUB_REGISTRY: ghcr.io
     GITHUB_REPOSITORY: ${{ github.repository }}
 
 jobs:
@@ -101,4 +100,4 @@ jobs:
               with:
                 push: true
                 tags: |
-                  ${{ env.GITHUB_REGISTRY }}/${{ env.GITHUB_REPOSITORY }}/${{ env.DOCKER_IMAGE_TAG }}:latest
+                  ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.GITHUB_REPOSITORY }}/${{ env.DOCKER_IMAGE_TAG }}:latest
