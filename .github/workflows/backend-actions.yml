@@ -87,7 +87,6 @@ jobs:
             - name: Login to DockerHub
               uses: docker/login-action@v3
               with:
-                registry: ${{ secrets.DOCKERHUB_USERNAME }}
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
             
@@ -95,6 +94,10 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: env
+
+            - name: Build the Docker image with docker-compose
+              run: |
+                    docker-compose -f docker-compose.back.dev.yml build
                 
             - name: Push the Docker image to the DockerHub registry
               uses: docker/build-push-action@v3
