@@ -100,4 +100,4 @@ jobs:
                     docker-compose -f docker-compose.back.dev.yml build
                 
             - name: Push the Docker image to the DockerHub registry
-              run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.secrets.DOCKERHUB_USERNAME}}
+              run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
