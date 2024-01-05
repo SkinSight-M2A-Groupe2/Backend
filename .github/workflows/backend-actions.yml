@@ -62,6 +62,11 @@ jobs:
         needs: build-docker-image
 
         steps:
+
+            - name: check docker image for vulnerabilities
+              run: |
+                    docker images -a
+
             - uses: actions/checkout@master
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
@@ -73,7 +78,7 @@ jobs:
             - name: Scan the built image for vulnerabilities
               uses: snyk/actions/docker@master
               with: 
-                image: ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
+                image: backend-skin-sight-backend:latest
                 args: --file=docker-compose.back.dev.yml
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
