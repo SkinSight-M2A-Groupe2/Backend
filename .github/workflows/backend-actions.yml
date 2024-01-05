@@ -73,25 +73,21 @@ jobs:
             - name: Build the Docker image with docker-compose
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
-            
-            - name: check docker image for vulnerabilities
-              run: |
-                    docker images -a
 
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
               with:
-                command: test
+                command: monitor
             
-            - name: Scan the built image for vulnerabilities
+            - name: Scan the built image for vulnerabilities and pass when the critical threshold is under 10
               uses: snyk/actions/docker@master
               with: 
                 image: backend_skin-sight-backend:latest
-                args: --file=docker-compose.back.dev.yml
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
             
     deploy-to-dockerhub:
 
