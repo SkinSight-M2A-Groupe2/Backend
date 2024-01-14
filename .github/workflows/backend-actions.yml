@@ -48,6 +48,9 @@ jobs:
         permissions: read-all
         
         steps:
+
+          - name: launch sonarqube container
+            run : docker compose -f docker-compose.back.dev.yml up sonarqube db -d  
   
           - uses: actions/checkout@v2
             with:
