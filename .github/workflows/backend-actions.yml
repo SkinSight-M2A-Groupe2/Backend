@@ -24,6 +24,10 @@ jobs:
         # Groups together all the steps that run in the test1 job. 
         # Each item nested under this section is a separate action or shell script.
         steps:
+
+            - name: something
+              run: telnet 127.0.0.1 9000
+              
             - uses: actions/checkout@v4
 
             - name: 'Create env file'
