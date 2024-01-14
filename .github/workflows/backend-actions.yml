@@ -60,7 +60,7 @@ jobs:
               fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           
           - name: launch sonarqube container
-            run : docker compose -f docker-compose.back.dev.yml up sonarqube db -d  
+            run : docker compose -f docker-compose.back.sonarqube.yml up -d 
           
           - uses: sonarsource/sonarqube-scan-action@master
             env:
