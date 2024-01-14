@@ -1,10 +1,10 @@
   sonarqube:
     image: sonarqube:community
     depends_on:
-      - db
+      - postgres
     
     environment:
-      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
+      SONAR_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
       SONAR_JDBC_USERNAME: sonar
       SONAR_JDBC_PASSWORD: sonar
     
@@ -15,7 +15,7 @@
     ports:
       - "9000:9000"
   
-  db:
+  postgres:
     image: postgres:15
     environment:
       POSTGRES_USER: sonar
