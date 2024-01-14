@@ -71,6 +71,10 @@ jobs:
 
         steps:
 
+            - name: check the network
+              run: |
+                curl http://localhost:9000
+
             - uses: actions/checkout@master
 
             - name: Download env file created as an artifact to add it to the container
