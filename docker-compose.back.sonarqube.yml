@@ -16,7 +16,7 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
     ports:
-      - "9000:9000"
+      - "9038:9038"
   
   db:
     image: postgres:15
