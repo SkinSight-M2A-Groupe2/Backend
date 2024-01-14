@@ -49,6 +49,11 @@ jobs:
         
         steps:
 
+          - name: "download env file to add it to the container"
+            uses: actions/download-artifact@v4
+            with:
+              name: env
+
           - uses: actions/checkout@v2
             with:
               fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
