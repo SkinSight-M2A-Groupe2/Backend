@@ -30,8 +30,12 @@ jobs:
             - name: check open ports
               run: netstat -lntu
 
+            - name: check localhost running
+              run:  ss -na | grep :127.0.0.1
+
             - name: check ports
               run: telnet localhost 9000
+
 
             - name: 'Create env file'
             # On copie tous les secrets contenus dans le repo dans un fichier .env
