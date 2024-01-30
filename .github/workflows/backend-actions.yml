@@ -30,9 +30,12 @@ jobs:
             - name: check open ports
               run: netstat -lntu
 
-            - name: check localhost running
-              run:  netstat -na | grep :127.0.0.1
+            # - name: check localhost running
+            #   run:  netstat -na | grep :127.0.0.1
 
+            - name: check localhost port
+              run: nmap localhost -p 9000
+            
             - name: check ports
               run: telnet localhost 9000
 
