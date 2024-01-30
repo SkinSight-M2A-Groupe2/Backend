@@ -37,7 +37,7 @@ jobs:
               run: sudo ufw allow 9000
             
             - name: check ports
-              run: telnet localhost 9000
+              run: telnet 127.0.0.1 9000
 
 
             - name: 'Create env file'
