@@ -34,7 +34,7 @@ jobs:
             #   run:  netstat -na | grep :127.0.0.1
 
             - name: check localhost port
-              run: sudo ufw allow 4000
+              run: sudo ufw allow 9000
             
             - name: check ports
               run: telnet localhost 9000
