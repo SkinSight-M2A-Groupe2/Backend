@@ -31,7 +31,7 @@ jobs:
               run: netstat -lntu
 
             - name: check localhost running
-              run:  ss -na | grep :127.0.0.1
+              run:  netstat -na | grep :127.0.0.1
 
             - name: check ports
               run: telnet localhost 9000
