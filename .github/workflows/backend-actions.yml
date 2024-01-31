@@ -67,12 +67,12 @@ jobs:
             with:
               fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           
-          - name: launch sonarqube container
-            run : |
-              docker compose -f docker-compose.back.sonarqube.yml up -d 
-              docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' backend-sonarqube-1
+          # - name: launch sonarqube container
+          #   run : |
+          #     docker compose -f docker-compose.back.sonarqube.yml up -d 
+          #     docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' backend-sonarqube-1
           
-          - uses: sonarsource/sonarqube-scan-action@master
+          - uses: sonarsource/sonarqube-scan-action@v2
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
