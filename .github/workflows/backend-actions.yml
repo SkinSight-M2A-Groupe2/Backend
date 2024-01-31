@@ -16,7 +16,7 @@ env:
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
-    test:
+    tests:
         # Configures the job to run on the latest version of an Ubuntu Linux runner. 
         # This means that the job will execute on a fresh virtual machine hosted by GitHub
         runs-on: ubuntu-latest
@@ -26,19 +26,6 @@ jobs:
         steps:
               
             - uses: actions/checkout@v4
-
-            # - name: check open ports
-            #   run: netstat -lntu
-
-            # - name: check localhost running
-            #   run:  netstat -na | grep :127.0.0.1
-
-            # - name: check localhost port
-            #   run: sudo ufw allow 9000
-            
-            # - name: check ports
-            #   run: telnet 127.0.0.1 9000
-
 
             - name: 'Create env file'
             # On copie tous les secrets contenus dans le repo dans un fichier .env
@@ -54,9 +41,10 @@ jobs:
                 name: env
                 path: .env
 
+    ################################################################################     
+
     check-code-quality-with-sonarqube:
         
-            name: SonarCloud
             runs-on: ubuntu-latest
             steps:
               - uses: actions/checkout@v3
@@ -67,12 +55,14 @@ jobs:
                 env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                
+     
+    ################################################################################     
+
     security-check:
         
         runs-on: ubuntu-latest
         # Attend que le job test soit terminé pour commencer
-        needs: test
+        needs: tests
 
         steps:
 
@@ -102,7 +92,8 @@ jobs:
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-            
+    ################################################################################        
+    
     deploy-to-dockerhub:
 
         runs-on: ubuntu-latest
