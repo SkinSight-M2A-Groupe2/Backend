@@ -17,6 +17,8 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
     ports:
       - "9000:9000"
+    networks:
+      - host
   
   db:
     image: postgres:15
@@ -35,6 +37,5 @@ volumes:
   postgresql_data:
 
 networks:
-  hostnet:
+  host:
     external: true
-    name: host
