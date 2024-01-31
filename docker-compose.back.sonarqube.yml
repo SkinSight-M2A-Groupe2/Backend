@@ -33,3 +33,8 @@ volumes:
   sonarqube_logs:
   postgresql:
   postgresql_data:
+
+networks:
+  hostnet:
+    external: true
+    name: host
