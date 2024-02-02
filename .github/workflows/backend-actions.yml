@@ -130,7 +130,7 @@ jobs:
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build -d
+                    docker-compose -f docker-compose.back.dev.yml build
               
             # - name: Get Docker image info
             #   id: image_info
