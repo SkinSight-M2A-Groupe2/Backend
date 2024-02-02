@@ -132,10 +132,11 @@ jobs:
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
               
-            - name: Retrieve image repository name
+            - name: Extract Docker image repository from docker-compose file
               run: |
-                IMAGE_REPO=$(docker-compose -f docker-compose.back.dev.yml config --services | xargs -I {} docker-compose -f docker-compose.back.dev.yml config --services {} | grep 'image:' | awk -F'/' '{print $2}')
-                echo "::set-env name=IMAGE_REPO::$IMAGE_REPO"
+                  REPO_NAME=$(grep 'image:' docker-compose.back.dev.yml | awk '{print $2}')
+                  echo "Image repository name is: $REPO_NAME"
+                  echo "::set-output name=REPO_NAME::$REPO_NAME"
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
