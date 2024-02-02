@@ -142,10 +142,14 @@ jobs:
               id: extract_info
               run: |
                 IFS=' ' read -r REPO_NAME TAG_NAME <<< "${{ steps.image_info.outputs.image_info }}"
-                echo "::set-output name=repo_name::$REPO_NAME"
-                echo "::set-output name=tag_name::$TAG_NAME"
+                echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
+                echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
                     docker tag backend_skin-sight-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
                     docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+            # - name: Push the Docker image to the DockerHub registry
+            #   run: |
+            #         docker tag backend_skin-sight-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+            #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
