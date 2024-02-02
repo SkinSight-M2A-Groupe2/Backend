@@ -130,23 +130,18 @@ jobs:
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build
+                    docker-compose -f docker-compose.back.dev.yml build -d
+              
+            # - name: Get Docker image info
+            #   id: image_info
+            #   run: |
+            #     IMAGE_INFO=$(docker container inspect -f '{{json .Config.Image}}' skin-sight-backend)
+            #     echo "image_info=$IMAGE_INFO" >> $GITHUB_OUTPUT
 
-            - name: list docker containers
-              run: docker ps
-              
-            - name: Get Docker image info
-              id: image_info
+            - name: Build the Docker image with docker-compose
               run: |
-                IMAGE_INFO=$(docker container inspect -f '{{json .Config.Image}}' skin-sight-backend)
-                echo "image_info=$IMAGE_INFO" >> $GITHUB_OUTPUT
-              
-            - name: Extract repository and tag from image info
-              id: extract_info
-              run: |
-                IFS=' ' read -r REPO_NAME TAG_NAME <<< "${{ steps.image_info.outputs.image_info }}"
-                echo "repo_name=$REPO_NAME" >> $GITHUB_OUTPUT
-                echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+                IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml build --quiet | cut -d ' ' -f 2)
+                echo "image_name=$IMAGE_NAME " >> $GITHUB_OUTPUT
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
