@@ -136,8 +136,7 @@ jobs:
               id: image_info
               run: |
                 IMAGE_INFO=$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' backend_skin-sight-backend:latest)
-                # echo "::set-output name=image_info::$IMAGE_INFO"
-                echo "{image_info}={$IMAGE_INFO}" >> $GITHUB_OUTPUT
+                echo "image_info=$IMAGE_INFO" >> $GITHUB_OUTPUT
               
             - name: Extract repository and tag from image info
               id: extract_info
