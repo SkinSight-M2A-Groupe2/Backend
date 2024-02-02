@@ -1,8 +1,8 @@
 version: "3.8"
 # Les services sont les conteneurs qui seront créés et exécutés par Docker Compose.
 services:
-  
   skin-sight-backend:
+    container_name: skin-sight-backend
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
