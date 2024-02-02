@@ -111,7 +111,7 @@ jobs:
     deploy-to-dockerhub:
 
         runs-on: ubuntu-latest
-        needs: [security-check, check-code-quality-with-sonarqube]
+        needs: [tests, security-check, check-code-quality-with-sonarqube]
 
         steps:
             - name: Checkout the repository
@@ -136,7 +136,8 @@ jobs:
               id: extract_image_name
               run: |
                 IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml images -q)
-                echo image_name=$IMAGE_NAME >> $GITHUB_OUTPUT
+                echo "image_name=$IMAGE_NAME >> $GITHUB_OUTPUT"
+                echo "::set-output name=image_name::$IMAGE_NAME"
                   
             - name: Use the extracted image name
               run: |
