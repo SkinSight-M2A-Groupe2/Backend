@@ -143,7 +143,9 @@ jobs:
               run: |
                 IMAGE_NAME=$(grep 'image:' docker-compose.back.dev.yml | awk '{print $2}')
                 echo "image_name=$IMAGE_NAME " >> $GITHUB_OUTPUT
-                echo ${{ steps.image_name.outputs.image_name }}
+
+            - name: Echo image name
+              run: echo ${{ steps.image_name.outputs.image_name }}
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
