@@ -1,8 +1,9 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ExtractJwt } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
+import { AuthUser } from '@supabase/supabase-js';
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(Strategy) {
   constructor(configService: ConfigService) {
@@ -14,7 +15,7 @@ export class SupabaseStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(request: Request) {
-    return request;
+  async validate(request: Request, user: AuthUser) {
+    return user;
   }
 }

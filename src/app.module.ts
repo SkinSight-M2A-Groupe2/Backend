@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { SupabaseGuard } from './auth/guards/supabase.guard';
 import { ChatModule } from './chat/chat.module';
 import { UsersModule } from './users/users.module';
+import { ProfessionalModule } from './professional/professional.module';
 
 @Module({
   controllers: [AppController],
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ChatModule,
     UsersModule,
+    ProfessionalModule,
   ],
   providers: [
     {
