@@ -140,7 +140,8 @@ jobs:
 
             - name: Build the Docker image with docker-compose
               run: |
-                IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml build --quiet | cut -d ' ' -f 2)
+                IMAGE_NAME=$(grep 'image:' docker-compose.back.dev.yml | awk '{print $2}')
+                echo "$IMAGE_NAME"
                 echo "image_name=$IMAGE_NAME " >> $GITHUB_OUTPUT
                 
             - name: Push the Docker image to the DockerHub registry
