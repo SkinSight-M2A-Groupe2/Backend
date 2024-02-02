@@ -132,11 +132,18 @@ jobs:
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
               
-            - name: Extract Docker image repository from docker-compose file
+            - name: Get Docker image info
+              id: image_info
               run: |
-                  REPO_NAME=$(grep 'image:' docker-compose.back.dev.yml | awk '{print $2}')
-                  echo "Image repository name is: $REPO_NAME"
-                  echo "::set-output name=REPO_NAME::$REPO_NAME"
+                IMAGE_INFO=$(docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' backend_skin-sight-backend:latest)
+                echo "::set-output name=image_info::$IMAGE_INFO"
+              
+            - name: Extract repository and tag from image info
+              id: extract_info
+              run: |
+                IFS=' ' read -r REPO_NAME TAG_NAME <<< "${{ steps.image_info.outputs.image_info }}"
+                echo "::set-output name=repo_name::$REPO_NAME"
+                echo "::set-output name=tag_name::$TAG_NAME"
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
