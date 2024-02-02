@@ -131,6 +131,11 @@ jobs:
             - name: Build the Docker image with docker-compose
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
+              
+            - name: Retrieve image repository name
+              run: |
+                IMAGE_REPO=$(docker-compose -f docker-compose.back.dev.yml config --services | xargs -I {} docker-compose -f docker-compose.back.dev.yml config --services {} | grep 'image:' | awk -F'/' '{print $2}')
+                echo "::set-env name=IMAGE_REPO::$IMAGE_REPO"
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
