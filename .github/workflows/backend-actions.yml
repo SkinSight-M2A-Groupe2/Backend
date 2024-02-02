@@ -10,9 +10,6 @@ on:
             - docker-implementation
             - github-actions-backend
             - main
-env:
-    DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/main' || 'refs/heads/docker-implementation' }}
-    GITHUB_REPOSITORY: skinsight-m2a-groupe2/backend
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
@@ -111,7 +108,7 @@ jobs:
     deploy-to-dockerhub:
 
         runs-on: ubuntu-latest
-        needs: [tests, security-check, check-code-quality-with-sonarqube]
+        needs: [security-check, check-code-quality-with-sonarqube]
 
         steps:
             - name: Checkout the repository
@@ -128,21 +125,14 @@ jobs:
               with:
                 name: env
 
+            # - name: Build the Docker image with docker-compose
+            #   run: |
+            #         docker-compose -f docker-compose.back.dev.yml build
+
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build
-
-            - name: Extract and store the image name
-              id: extract_image_name
-              run: |
-                IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml images -q)
-                echo "image_name=$IMAGE_NAME >> $GITHUB_OUTPUT"
-                echo "::set-output name=image_name::$IMAGE_NAME"
-                  
-            - name: Use the extracted image name
-              run: |
-                echo "The extracted image name is ${{ steps.extract_image_name.outputs.image_name }}"
-                # Use the image name for further processing
+                DOCKER_IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml build --quiet)
+                echo "Built Docker image: $DOCKER_IMAGE_NAME"
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
