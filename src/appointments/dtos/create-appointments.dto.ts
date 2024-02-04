@@ -1,32 +1,26 @@
 import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateProfessionalDto {
+export class CreateAppointmentDto {
   @AutoMap()
   @ApiProperty()
-  readonly profile_id: string;
-
+  professional_id: number;
   @AutoMap()
   @ApiProperty()
-  readonly address_1: string;
-
+  patient_id: bigint; //id du patient
   @AutoMap()
   @ApiProperty()
-  readonly address_2: string;
-
+  readonly slots: string; //creneau horaire
   @AutoMap()
   @ApiProperty()
-  readonly city: string;
-
+  readonly appointment_type: string;
   @AutoMap()
   @ApiProperty()
-  readonly country: string;
-
+  readonly appointment_date: Date;
   @AutoMap()
   @ApiProperty()
-  readonly postal_code: string;
-
+  readonly result: string;
   @AutoMap()
   @ApiProperty()
-  readonly type: string;
+  readonly status: string;
 }

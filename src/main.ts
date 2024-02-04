@@ -10,6 +10,7 @@ async function bootstrap() {
     .setDescription('SkinSight API description')
     .setVersion('1.0')
     .addTag('skinsight')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

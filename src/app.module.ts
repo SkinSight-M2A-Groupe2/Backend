@@ -9,6 +9,8 @@ import { SupabaseGuard } from './auth/guards/supabase.guard';
 import { ChatModule } from './chat/chat.module';
 import { UsersModule } from './users/users.module';
 import { ProfessionalModule } from './professional/professional.module';
+import { DisponibilityModule } from './disponibility/disponibility.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   controllers: [AppController],
@@ -22,6 +24,8 @@ import { ProfessionalModule } from './professional/professional.module';
     ChatModule,
     UsersModule,
     ProfessionalModule,
+    DisponibilityModule,
+    AppointmentsModule,
   ],
   providers: [
     {

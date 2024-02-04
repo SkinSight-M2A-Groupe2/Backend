@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { CreateProfessionalDto } from '../dto/create-professional.dto';
+import { CreateProfessionalDto } from '../dtos/create-professional.dto';
 //import { UpdateProfessionalDto } from '../dto/update-professional.dto';
-import { SupabaseService } from '../../auth/supabase.service';
+import { SupabaseService } from 'src/auth/supabase.service';
 
 @Injectable()
 export class ProfessionalService {
@@ -19,7 +19,7 @@ export class ProfessionalService {
   async create(createProfessionalDto: CreateProfessionalDto): Promise<any> {
     const { data, error } = await this.supabase
       .from('professionals')
-      .upsert(createProfessionalDto);
+      .insert(createProfessionalDto);
     if (error) {
       throw new Error(error.message);
     }
@@ -95,11 +95,31 @@ export class ProfessionalService {
         }
         return data;
     }
-    async findMyProfile(id: number) : Promise<any> {
+    async findProfile(id: number) : Promise<any> {
         const { data, error } = await this.supabase
         .from('professionals')
         .select('(*),profiles(last_name,first_name,email,phone)')
-        .eq('profile_id', id);
+        .eq('id', id);
+        if (error) {
+        throw new Error(error.message);
+        }
+        return data;
+    }
+    async findMyProfile(userId: string) : Promise<any> {
+        const { data, error } = await this.supabase
+        .from('professionals')
+        .select('(*),profiles(last_name,first_name,email,phone)')
+        .eq('profile_id', userId);
+        if (error) {
+        throw new Error(error.message);
+        }
+        return data;
+    }
+    async updateProfile(id: number, updateProfessionalDto: any) : Promise<any> {
+        const { data, error } = await this.supabase
+        .from('professionals')
+        .update(updateProfessionalDto)
+        .eq('professional_id', id);
         if (error) {
         throw new Error(error.message);
         }

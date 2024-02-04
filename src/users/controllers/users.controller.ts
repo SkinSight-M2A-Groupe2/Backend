@@ -6,17 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  Put,
   UseGuards,
   Req,
-  Head,
-  Header,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { SupabaseStrategy } from 'src/auth/strategy/supabase.strategy';
-import { AuthGuard } from '@nestjs/passport';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 import { SupabaseGuard } from 'src/auth/guards/supabase.guard';
 @Controller('users')
 export class UsersController {
@@ -26,7 +21,7 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  @Get('me')
+  @Get()
   @UseGuards(SupabaseGuard) // Apply SupabaseStrategy to this route
   findByJwt(@Req() req: any) {
     console.log('req', req.user.sub);
@@ -46,10 +41,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
   //Return les user dans le bon perimètre
-  @Get()
+  /* @Get('all')
   findAllUser() {
     return this.usersService.findAll();
-  }
+  } */
 
   @Get('email/:email')
   findOneByEmail(@Param('email') email: string) {
