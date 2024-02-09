@@ -14,6 +14,7 @@ export class UsersService {
   private async initSupabase() {
     // Ensure that this.SupabaseService.getClient() is called
     this.supabase = await this.SupabaseService.getClient();
+    //console.log('supabase', this.supabase);
     return this.supabase;
   }
 
@@ -106,7 +107,6 @@ export class UsersService {
       .select('*')
       .eq('id', userId)
       .single();
-      console.log('data', data);
     if (error) {
       throw new Error(error.message);
     }
