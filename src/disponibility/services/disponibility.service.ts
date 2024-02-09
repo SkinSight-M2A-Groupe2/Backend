@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateDisponibilityDto } from '../dtos/create-disponibility.dto';
 import { SupabaseService } from 'src/auth/supabase.service';
@@ -50,4 +51,12 @@ export class DisponibilityService {
     userId: string,
     createDisponibilityDto: CreateDisponibilityDto,
   ): Promise<any> {}
+
+  async findAll() {
+    const { data, error } = await this.supabase.from('disponibility').select('*');
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
 }

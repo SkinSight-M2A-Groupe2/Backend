@@ -11,6 +11,8 @@ import { UsersModule } from './users/users.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { DisponibilityModule } from './disponibility/disponibility.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { UploadModule } from './upload/upload.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   controllers: [AppController],
@@ -26,6 +28,8 @@ import { AppointmentsModule } from './appointments/appointments.module';
     ProfessionalModule,
     DisponibilityModule,
     AppointmentsModule,
+    UploadModule,
+    DocumentsModule,
   ],
   providers: [
     {

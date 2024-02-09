@@ -27,6 +27,11 @@ export class DisponibilityController {
     return this.disponibilityService.create(userId, createDisponibilityDto);
   }
   
+  @Get()
+  @UseGuards(SupabaseGuard)
+  findAll() {
+    return this.disponibilityService.findAll();
+  }
   /* @Get(':id')
   findOne(@Param('id') id: string) {
     return this.disponibilityService.findOne(id);

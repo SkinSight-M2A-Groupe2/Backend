@@ -106,6 +106,7 @@ export class UsersService {
       .select('*')
       .eq('id', userId)
       .single();
+      console.log('data', data);
     if (error) {
       throw new Error(error.message);
     }
