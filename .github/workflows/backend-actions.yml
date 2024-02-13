@@ -10,9 +10,6 @@ on:
             - docker-implementation
             - github-actions-backend
             - main
-env:
-    DOCKER_IMAGE_TAG: ${{ github.ref == 'refs/heads/main' || 'refs/heads/docker-implementation' }}
-    GITHUB_REPOSITORY: skinsight-m2a-groupe2/backend
 
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
