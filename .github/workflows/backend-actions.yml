@@ -138,5 +138,5 @@ jobs:
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
-                    docker tag backend_skin-sight-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+                    docker tag backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
                     docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
