@@ -131,10 +131,10 @@ jobs:
             - name: Build the Docker image with docker-compose
               run: |
                 docker-compose -f docker-compose.back.dev.yml build
-
-            - name: check image afer build
+            
+            - name: check docker image
               run: |
-                    docker-compose -f docker-compose.back.dev.yml up 
+                docker images
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
