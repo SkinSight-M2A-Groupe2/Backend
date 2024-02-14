@@ -166,6 +166,5 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                 tags: ${{ steps.meta.outputs.tags }}
-                annotations: ${{ steps.meta.outputs.annotations }}
                 push: true
                 # tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
