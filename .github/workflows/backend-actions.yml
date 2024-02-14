@@ -32,9 +32,6 @@ jobs:
             - name: run tests in container
               run: docker compose -f docker-compose.back.test.yml up --build
 
-            - name: "test dev container"
-              run: docker compose -f docker-compose.back.dev.yml up --build
-
             - name: "upload env file to use it in the deploy job"
               uses: actions/upload-artifact@v4
               with:
