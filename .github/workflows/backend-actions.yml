@@ -149,8 +149,14 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-            - name: Build and push image
-              run: docker-compose -f docker-compose.back.dev.yml build && docker-compose -f docker-compose.back.dev.yml push
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                file: docker-compose.back.dev.yml
+                push: true
+                tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+                
                 
             # - name: Push the Docker image to the DockerHub registry
             #   run: |
