@@ -127,13 +127,14 @@ jobs:
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 
+                
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml up --build
-            
-            - name: Build the Docker image with docker-compose
+                docker-compose -f docker-compose.back.dev.yml build
+
+            - name: check image afer build
               run: |
-                    docker-compose -f docker-compose.back.dev.yml up --build --force-recreate -d
+                    docker-compose -f docker-compose.back.dev.yml up 
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
