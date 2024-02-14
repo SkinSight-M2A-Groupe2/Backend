@@ -125,6 +125,11 @@ jobs:
               with:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+
+            - name: Build the Docker image with docker-compose
+              run: |
+                    docker-compose -f docker-compose.back.dev.yml up --build
             
             - name: Build the Docker image with docker-compose
               run: |
