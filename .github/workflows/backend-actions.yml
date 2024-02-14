@@ -121,7 +121,7 @@ jobs:
             name: env
 
         - name: Build the Docker image
-          run: docker-compose build --no-cache --force-rm 
+          run: docker compose -f docker-compose.back.dev.yml build --no-cache --force-rm 
 
     ################################################################################        
     
