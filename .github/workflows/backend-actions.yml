@@ -11,9 +11,6 @@ on:
             - github-actions-backend
             - main
 
-env: 
-  IMAGE_NAME: backend_skin-sight-backend
-
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
     tests:
@@ -108,30 +105,30 @@ jobs:
 
     ################################################################################  
     
-    build-final-image:
+    # build-final-image:
 
-      needs: [security-check, check-code-quality-with-sonarqube]
-      runs-on: ubuntu-latest
+    #   needs: [security-check, check-code-quality-with-sonarqube]
+    #   runs-on: ubuntu-latest
       
-      steps:
+    #   steps:
 
-        - name: Checkout the repository
-          uses: actions/checkout@v4
+    #     - name: Checkout the repository
+    #       uses: actions/checkout@v4
 
-        - name: "download env file to add it to the container"
-          uses: actions/download-artifact@v3
-          with:
-            name: env
+    #     - name: "download env file to add it to the container"
+    #       uses: actions/download-artifact@v3
+    #       with:
+    #         name: env
 
-        - name: Build the Docker image
-          run: docker compose -f docker-compose.back.dev.yml build --no-cache --force-rm 
+    #     - name: Build the Docker image
+    #       run: docker compose -f docker-compose.back.dev.yml build --no-cache --force-rm 
 
     ################################################################################        
     
     deploy-to-dockerhub:
 
         runs-on: ubuntu-latest
-        needs: [security-check, check-code-quality-with-sonarqube, build-final-image]
+        needs: [security-check, check-code-quality-with-sonarqube]
         
         steps:
           
@@ -143,8 +140,14 @@ jobs:
               with:
                 name: env
 
-            - name: Test the Docker image
-              run: docker compose -f docker-compose.back.dev.yml up -d
+            - name: Login to DockerHub
+              run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+            - name: Build and push the Docker image
+              run: | 
+                docker compose -f docker-compose.back.dev.yml build --no-cache --force-rm
+                docker-compose -f docker-compose.back.dev.yml push
+
 
             # - name: Build the Docker image with docker-compose
             #   run: |
@@ -161,24 +164,24 @@ jobs:
             #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
 
 
-            - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+            # - name: Set up Docker Buildx
+            #   uses: docker/setup-buildx-action@v3
 
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v3
-              with:
-                username: ${{ secrets.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+            # - name: Log in to Docker Hub
+            #   uses: docker/login-action@v3
+            #   with:
+            #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+            #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-            - name: Extract metadata (tags, labels) for Docker
-              id: meta
-              uses: docker/metadata-action@v4
-              with:
-                images: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+            # - name: Extract metadata (tags, labels) for Docker
+            #   id: meta
+            #   uses: docker/metadata-action@v4
+            #   with:
+            #     images: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
     
-            - name: Build and push Docker image
-              uses: docker/build-push-action@v5
-              with:
-                push: true
-                tags: ${{ steps.meta.outputs.tags }}
-                labels: ${{ steps.meta.outputs.labels }}
+            # - name: Build and push Docker image
+            #   uses: docker/build-push-action@v5
+            #   with:
+            #     push: true
+            #     tags: ${{ steps.meta.outputs.tags }}
+            #     labels: ${{ steps.meta.outputs.labels }}
