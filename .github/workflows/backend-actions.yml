@@ -145,7 +145,7 @@ jobs:
 
             - name: Build and push the Docker image
               run: | 
-                docker compose -f docker-compose.back.dev.yml build --no-cache --force-rm
+                docker compose -f docker-compose.back.dev.yml build
                 docker-compose -f docker-compose.back.dev.yml push
 
 
