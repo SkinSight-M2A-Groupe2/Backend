@@ -112,13 +112,13 @@ jobs:
         
         steps:
           
+            - name: Checkout the repository
+              uses: actions/checkout@v4
+
             - name: "download env file to add it to the container"
               uses: actions/download-artifact@v4
               with:
                 name: env
-
-            - name: Checkout the repository
-              uses: actions/checkout@v4
 
             - name: Login to DockerHub
               uses: docker/login-action@v3
@@ -126,7 +126,6 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
             
-
             - name: Build the Docker image with docker-compose
               run: |
                     docker-compose -f docker-compose.back.dev.yml up --build -d
