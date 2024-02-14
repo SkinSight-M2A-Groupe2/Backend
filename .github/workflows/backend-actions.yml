@@ -109,8 +109,14 @@ jobs:
 
         runs-on: ubuntu-latest
         needs: [security-check, check-code-quality-with-sonarqube]
-
+        
         steps:
+          
+            - name: "download env file to add it to the container"
+              uses: actions/download-artifact@v4
+              with:
+                name: env
+
             - name: Checkout the repository
               uses: actions/checkout@v4
 
@@ -120,14 +126,10 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
             
-            - name: "download env file to add it to the container"
-              uses: actions/download-artifact@v4
-              with:
-                name: env
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build
+                    docker-compose -f docker-compose.back.dev.yml build --force-recreate
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
