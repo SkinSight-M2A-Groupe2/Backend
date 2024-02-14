@@ -11,6 +11,9 @@ on:
             - github-actions-backend
             - main
 
+env: 
+  IMAGE_NAME: backend_skin-sight-backend
+
 jobs:
     # Defines a job named test1. The child keys will define properties of the job.  
     tests:
@@ -140,6 +143,7 @@ jobs:
             #         docker tag backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
             #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
 
+
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
 
@@ -152,8 +156,16 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+            - name: Extract metadata
+              id: meta
+              uses: docker/metadata-action@v4
+              with:
+                images: ${{ env.IMAGE_NAME }}
+
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
+                tags: ${{ steps.meta.outputs.tags }}
+                annotations: ${{ steps.meta.outputs.annotations }}
                 push: true
-                tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+                # tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
