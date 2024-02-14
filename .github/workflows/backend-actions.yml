@@ -128,7 +128,7 @@ jobs:
             
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml up --build -d
+                    docker-compose -f docker-compose.back.dev.yml up --build --force-recreate -d
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
