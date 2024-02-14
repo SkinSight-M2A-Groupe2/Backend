@@ -126,7 +126,7 @@ jobs:
                 
             - name: Build the Docker image with docker-compose
               run: |
-                docker-compose -f docker-compose.back.dev.yml build
+                docker-compose -f docker-compose.back.dev.yml build --no-cache
                 
             - name: check docker image
               run: |
@@ -140,5 +140,5 @@ jobs:
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
-                    docker tag backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend_hub:latest
-                    docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend_hub:latest
+                    docker tag backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+                    docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
