@@ -32,6 +32,11 @@ export class DisponibilityController {
   findAll() {
     return this.disponibilityService.findAll();
   }
+  @Get('professional/:id')
+  @UseGuards(SupabaseGuard)
+  findAllByProfessional(@Param('id') id: number) {
+    return this.disponibilityService.findAllByProfessional(id);
+  }
   /* @Get(':id')
   findOne(@Param('id') id: string) {
     return this.disponibilityService.findOne(id);
