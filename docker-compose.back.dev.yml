@@ -9,7 +9,9 @@ services:
       context: .
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
       target: development
-      env_file: 
+      # env_file: 
+      #   - .env
+      secrets:
         - .env
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
