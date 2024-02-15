@@ -3,20 +3,20 @@ version: "3.8"
 services:
   
   skin-sight-backend:
-    # image: luluberlute/backend-skin-sight-backend:latest
+    # images: luluberlute/backend_skin-sight-backend:latest
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
-      secrets:
-        - SUPABASE_JWT_SECRET
-        - SUPABASE_API_URL
-        - SUPABASE_ANON_KEY
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
+      secrets:
+        - env-variables
       target: development
+      # env_file: 
+      #   - .env
     environment:
-        - SUPABASE_JWT_SECRET=/run/secrets/SUPABASE_JWT_SECRET
-        - SUPABASE_API_URL=/run/secrets/SUPABASE_API_URL
-        - SUPABASE_ANON_KEY=/run/secrets/SUPABASE_ANON_KEY
+      - SUPABASE_JWT_SECRET=/run/secrets/env-variables
+      - SUPABASE_API_URL= /run/secrets/env-variables
+      - SUPABASE_ANON_KEY= /run/secrets/env-variables
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
@@ -31,12 +31,6 @@ services:
     command: npm start
     ports:
       - "5000:5000"
-
 secrets:
-  SUPABASE_JWT_SECRET:
+  env-variables:
     file: .env
-  SUPABASE_API_URL:
-    file: .env
-  SUPABASE_ANON_KEY:
-    file: .env
-  
