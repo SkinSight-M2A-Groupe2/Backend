@@ -3,7 +3,7 @@ version: "3.8"
 services:
   
   skin-sight-backend:
-    image: luluberlute/backend-skin-sight-backend:latest
+    # image: luluberlute/backend-skin-sight-backend:latest
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
