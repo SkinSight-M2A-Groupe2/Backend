@@ -131,7 +131,7 @@ jobs:
 
             - name: check env variables inside container
               run: |
-                docker run backend-skin-sight-backend
+                docker run backend-skin-sight-backend -d
                 docker exec backend-skin-sight-backend-1 env
 
             - name: Login to DockerHub
@@ -139,7 +139,7 @@ jobs:
 
             - name: Build and push the Docker image
               run: | 
-                docker tag backend-skin-sight-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
+                docker tag backend-skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
                 docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
 
             - name: pull the image from dockerhub
