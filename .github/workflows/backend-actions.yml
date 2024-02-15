@@ -131,7 +131,7 @@ jobs:
 
             - name: check env variables inside container
               run: |
-                docker run backend-skin-sight-backend -d
+                docker run -d backend-skin-sight-backend 
                 docker exec backend-skin-sight-backend-1 env
 
             - name: Login to DockerHub
