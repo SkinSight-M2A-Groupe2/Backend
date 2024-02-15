@@ -11,8 +11,8 @@ services:
       target: development
       # env_file: 
       #   - .env
-    secrets:
-      - some-secrets
+      secrets:
+        - some-secrets
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
