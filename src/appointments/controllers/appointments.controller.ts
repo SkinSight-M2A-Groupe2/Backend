@@ -50,11 +50,11 @@ export class AppointmentsController {
       professional_id,
     );
   }
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: number) {
     return this.appointmentsService.findOne(id);
   }
-  @Patch(':id')
+  @Patch('/:id')
   update(
     @Param('id') id: number,
     @Body() updateAppointmentDto: UpdateAppointmentDto,

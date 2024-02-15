@@ -66,4 +66,14 @@ export class DisponibilityService {
     }
     return data;
   }
+  async findOne(id: string) {
+    const { data, error } = await this.supabase
+      .from('disponibility')
+      .select('*')
+      .eq('id', id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
 }
