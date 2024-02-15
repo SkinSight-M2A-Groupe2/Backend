@@ -123,7 +123,7 @@ jobs:
             - name: build image and check env variables
               run: |
                 docker compose -f docker-compose.back.dev.yml build
-                docker images
+                docker run backend-skin-sight-backend env
 
             - name: Test container function
               run: docker compose -f docker-compose.back.dev.yml up -d
