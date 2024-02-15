@@ -28,4 +28,4 @@ services:
 
 secrets:
   environnement-variables:
-    file: .env
+    file: .env /run/secrets/environnement-variables
