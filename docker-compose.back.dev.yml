@@ -7,16 +7,16 @@ services:
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
-      environment:
-        - SUPABASE_JWT_SECRET=/run/secrets/SUPABASE_JWT_SECRET
-        - SUPABASE_API_URL=/run/secrets/SUPABASE_API_URL
-        - SUPABASE_ANON_KEY=/run/secrets/SUPABASE_ANON_KEY
       secrets:
         - SUPABASE_JWT_SECRET
         - SUPABASE_API_URL
         - SUPABASE_ANON_KEY
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
       target: development
+    environment:
+        - SUPABASE_JWT_SECRET=/run/secrets/SUPABASE_JWT_SECRET
+        - SUPABASE_API_URL=/run/secrets/SUPABASE_API_URL
+        - SUPABASE_ANON_KEY=/run/secrets/SUPABASE_ANON_KEY
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
