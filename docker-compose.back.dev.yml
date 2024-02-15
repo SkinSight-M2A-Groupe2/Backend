@@ -3,12 +3,13 @@ version: "3.8"
 services:
   
   skin-sight-backend:
-    # image: luluberlute/backend_skin-sight-backend:latest
+    # images: luluberlute/backend_skin-sight-backend:latest
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
       target: development
+      env_file: .env
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
@@ -19,8 +20,6 @@ services:
       # ce volume est anonyme, on le reconnaît car on ne donne que le chemin du dossier dans le conteneur
       - /app/node_modules
     # on précise le fichier .env à utiliser afin d'avoir accès aux variables d'environnement sans le mettre dans le conteneur
-    env_file: 
-      - .env
     # commande pour lancer le serveur en mode dev, cette commande sera prioritaire à la commande se trouvant dans le dockerfile
     command: npm start
     ports:
