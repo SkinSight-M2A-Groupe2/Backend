@@ -86,7 +86,7 @@ jobs:
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build
+                    docker compose -f docker-compose.back.dev.yml build
 
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
@@ -141,7 +141,7 @@ jobs:
             - name: Build and push the Docker image
               run: | 
                 docker compose -f docker-compose.back.dev.yml build
-                docker-compose -f docker-compose.back.dev.yml push
+                docker compose -f docker-compose.back.dev.yml push
 
             - name: pull the image from dockerhub
               run: |
