@@ -8,6 +8,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { SupabaseGuard } from './auth/guards/supabase.guard';
 import { ChatModule } from './chat/chat.module';
 import { UsersModule } from './users/users.module';
+import { ProfessionalModule } from './professional/professional.module';
+import { DisponibilityModule } from './disponibility/disponibility.module';
+import { AppointmentsModule } from './appointments/appointments.module';
+import { UploadModule } from './upload/upload.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   controllers: [AppController],
@@ -20,6 +25,11 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     ChatModule,
     UsersModule,
+    ProfessionalModule,
+    DisponibilityModule,
+    AppointmentsModule,
+    UploadModule,
+    DocumentsModule,
   ],
   providers: [
     {

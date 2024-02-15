@@ -13,14 +13,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/users')
+  @Get('/usertest')
   async getClient(): Promise<any> {
     const supabaseClient = await this.supabaseService.getClient();
 
-    const { data } = await supabaseClient
-      .from('user_profiles')
-      .select()
-      .single();
+    const { data } = await supabaseClient.from('profiles').select('*');
 
     console.log(data);
     return data;
