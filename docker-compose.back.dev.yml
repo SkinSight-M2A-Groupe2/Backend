@@ -3,10 +3,11 @@ version: "3.8"
 services:
   
   skin-sight-backend:
-    # images: luluberlute/backend_skin-sight-backend:latest
+    image: luluberlute/backend-skin-sight-backend:latest
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
+      env_file: .env
       secrets:
         - environnement-variables
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
@@ -27,7 +28,7 @@ services:
     command: npm start
     ports:
       - "5000:5000"
-      
+
 secrets:
   environnement-variables:
     file: .env
