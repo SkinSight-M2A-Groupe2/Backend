@@ -121,6 +121,9 @@ jobs:
               with:
                 name: env
 
+            - name: Test container function
+              run: docker compose -f docker-compose.back.dev.yml up -d
+
             - name: Login to DockerHub
               run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
