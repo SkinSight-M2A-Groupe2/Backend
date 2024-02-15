@@ -124,7 +124,7 @@ jobs:
               run: docker compose -f docker-compose.back.dev.yml up -d
 
             - name: check container app logs
-              run: backend-skin-sight-backend-1 logs
+              run: docker logs backend-skin-sight-backend-1
 
             - name: check env variables inside container
               run: docker exec backend-skin-sight-backend-1 env
