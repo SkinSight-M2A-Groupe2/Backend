@@ -7,8 +7,14 @@ services:
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
+      environment:
+        - SUPABASE_JWT_SECRET=/run/secrets/SUPABASE_JWT_SECRET
+        - SUPABASE_API_URL=/run/secrets/SUPABASE_API_URL
+        - SUPABASE_ANON_KEY=/run/secrets/SUPABASE_ANON_KEY
       secrets:
-        - environnement-variables
+        - SUPABASE_JWT_SECRET
+        - SUPABASE_API_URL
+        - SUPABASE_ANON_KEY
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
       target: development
     volumes:
@@ -27,5 +33,10 @@ services:
       - "5000:5000"
 
 secrets:
-  environnement-variables:
-    file: .env /run/secrets/environnement-variables
+  SUPABASE_JWT_SECRET:
+    file: .env
+  SUPABASE_API_URL:
+    file: .env
+  SUPABASE_ANON_KEY:
+    file: .env
+  
