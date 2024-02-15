@@ -29,4 +29,4 @@ services:
       - "5000:5000"
 secrets:
   some-secrets:
-    file: .env/.env
+    file: .env
