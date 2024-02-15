@@ -12,8 +12,6 @@ services:
       target: development
       # env_file: 
       #   - .env
-      secrets:
-        - server-certificate
     secrets:
       - some-secrets
     volumes:
