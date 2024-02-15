@@ -4,6 +4,7 @@ services:
   
   skin-sight-backend:
     # images: luluberlute/backend_skin-sight-backend:latest
+    environment:
     build:
       # on précise le dossier où se trouve le dockerfile par rapport au fichier docker-compose.yml, ici le dockerfile se trouve dans le même dossier que le docker-compose.yml d'où le .
       context: .
@@ -12,7 +13,9 @@ services:
       # env_file: 
       #   - .env
       secrets:
-        - .env
+        - server-certificate
+    secrets:
+      - some-secrets
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
@@ -27,3 +30,6 @@ services:
     command: npm start
     ports:
       - "5000:5000"
+secrets:
+  some-secrets:
+    file: .env/.env
