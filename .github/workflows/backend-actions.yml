@@ -104,7 +104,6 @@ jobs:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     ################################################################################  
-       
     
     deploy-to-dockerhub:
 
@@ -125,7 +124,10 @@ jobs:
               run: docker compose -f docker-compose.back.dev.yml up -d
 
             - name: check container app logs
-              run: docker compose -f docker-compose.back.dev.yml logs
+              run: backend-skin-sight-backend-1 logs
+
+            - name: check env variables inside container
+              run: docker exec backend-skin-sight-backend-1 env
 
             - name: Login to DockerHub
               run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -138,9 +140,9 @@ jobs:
             - name: pull the image from dockerhub
               run: |
                 docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+
+            - name: check image env variables
+              run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest env
             
             - name: test the pulled image
               run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
-
-            - name: check container app logs
-              run: docker compose -f docker-compose.back.dev.yml logs
