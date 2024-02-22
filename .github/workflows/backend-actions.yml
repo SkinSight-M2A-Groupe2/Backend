@@ -129,12 +129,12 @@ jobs:
 
             - name: push the Docker image to the DockerHub registry
               run: |
-                docker tag ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
-                docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+                docker tag ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
+                docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
            
             - name: pull the Docker image to the DockerHub registry
               run: |
-                docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+                docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
             
             - name: test the pulled image
-              run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+              run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend-skin-sight-backend:latest
