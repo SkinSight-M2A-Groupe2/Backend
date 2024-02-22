@@ -123,8 +123,16 @@ jobs:
             - name: Build the Docker image with docker-compose
               run: |
                     docker-compose -f docker-compose.back.dev.yml build
-                
-            - name: Push the Docker image to the DockerHub registry
+              
+            - name: connect to dockerhub
+              run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: push the Docker image to the DockerHub registry
+              run: |
+                docker tag ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+                docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+           
+            - name: pull the Docker image to the DockerHub registry
               run: |
                 docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
             
