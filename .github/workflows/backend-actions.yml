@@ -33,7 +33,7 @@ jobs:
               run: docker compose -f docker-compose.back.test.yml up --build
 
             - name: "upload env file to use it in the deploy job"
-              uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v3
               with:
                 name: env
                 path: .env
@@ -44,7 +44,7 @@ jobs:
         
             runs-on: ubuntu-latest
             steps:
-              - uses: actions/checkout@v3
+              - uses: actions/checkout@v4
                 with:
                   fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
               - name: SonarCloud Scan
@@ -77,16 +77,16 @@ jobs:
 
         steps:
 
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v4
 
             - name: Download env file created as an artifact to add it to the container
-              uses: actions/download-artifact@v4
+              uses: actions/download-artifact@v3
               with:
                 name: env
 
             - name: Build the Docker image with docker-compose
               run: |
-                    docker-compose -f docker-compose.back.dev.yml build
+                    docker compose -f docker-compose.back.dev.yml build
 
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
@@ -103,25 +103,20 @@ jobs:
               env:
                 SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-    ################################################################################        
+    ################################################################################  
     
     deploy-to-dockerhub:
 
         runs-on: ubuntu-latest
         needs: [security-check, check-code-quality-with-sonarqube]
-
+        
         steps:
+          
             - name: Checkout the repository
               uses: actions/checkout@v4
 
-            - name: Login to DockerHub
-              uses: docker/login-action@v3
-              with:
-                username: ${{ secrets.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_PASSWORD }}
-            
             - name: "download env file to add it to the container"
-              uses: actions/download-artifact@v4
+              uses: actions/download-artifact@v3
               with:
                 name: env
 
@@ -136,5 +131,10 @@ jobs:
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
-                    docker tag backend_skin-sight-backend:latest ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
-                    docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend
+                docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest
+
+            - name: check image env variables
+              run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest env
+            
+            - name: test the pulled image
+              run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/backend_skin-sight-backend:latest

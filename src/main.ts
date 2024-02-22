@@ -10,10 +10,12 @@ async function bootstrap() {
     .setDescription('SkinSight API description')
     .setVersion('1.0')
     .addTag('skinsight')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs/v1', app, document);
+  app.enableCors();
   await app.listen(5000);
 }
 bootstrap();
