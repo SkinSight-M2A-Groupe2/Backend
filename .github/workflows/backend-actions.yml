@@ -119,10 +119,6 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                 name: env
-
-            - name: Build the Docker image with docker-compose
-              run: |
-                    docker compose -f docker-compose.back.dev.yml up --build
               
             - name: connect to dockerhub
               uses: docker/login-action@v2
