@@ -8,8 +8,12 @@ services:
       context: .
       # On indique l'étape de build à utiliser dans le Dockerfile grâce à l'alias contenu dans celui-ci (FROM base AS development)
       target: development
-      env_file: 
-        - .env
+      # Normalement il ne faut pas le faire comme ça, dans le cas du kubernetes, il faut utiliser configMag et secrets
+      args:
+        - SUPABASE_JWT_SECRET="${SUPABASE_JWT_SECRET}"
+        - SUPABASE_API_URL="${SUPABASE_API_URL}"
+        - SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY}"
+    # env_file: .env
     volumes:
       # Liaison entre le dossier courant et le dossier /app du conteneur de manière à ce que les changements dans le conteneur se fassent en temps réel
       # Il est possible d'utiliser une autre syntaxe qui fait la même chose sous la forme - ./chemin/vers/dossier:/app mais le choix de l'autre syntaxe est parce qu'elle est plus verbeuse
