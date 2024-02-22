@@ -53,7 +53,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-            # Check the Quality Gate status.
+            # Check the Quality Gate status.c'
               - name: SonarQube Quality Gate check
                 id: sonarqube-quality-gate-check
                 uses: sonarsource/sonarqube-quality-gate-action@master
@@ -120,14 +120,9 @@ jobs:
               with:
                 name: env
 
-            # - name: Build the Docker image with docker-compose
-            #   run: |
-            #         docker-compose -f docker-compose.back.dev.yml build
-
             - name: Build the Docker image with docker-compose
               run: |
-                DOCKER_IMAGE_NAME=$(docker-compose -f docker-compose.back.dev.yml build --quiet)
-                echo "Built Docker image: $DOCKER_IMAGE_NAME"
+                    docker-compose -f docker-compose.back.dev.yml build
                 
             - name: Push the Docker image to the DockerHub registry
               run: |
