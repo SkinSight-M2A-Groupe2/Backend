@@ -1,0 +1,4 @@
+secretGenerator:
+  - name: env
+    files:
+      - .env
