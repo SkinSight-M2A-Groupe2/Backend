@@ -8,17 +8,17 @@ export class CreateUserDto {
 
   @AutoMap()
   @ApiProperty()
-  readonly username: string;
+  readonly first_name: string;
 
   @AutoMap()
   @ApiProperty()
-  readonly full_name: string;
+  readonly last_name: string;
 
-  @AutoMap()
+  /* @AutoMap()
   @ApiProperty()
   readonly phone: string;
 
   @AutoMap()
   @ApiProperty()
-  readonly avatar_url: string;
+  readonly avatar_url: string;*/
 }
