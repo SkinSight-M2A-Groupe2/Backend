@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
+import * as csurf from 'csurf';
+import * as session from 'express-session';
+import helmet from 'helmet';
+import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   const config = new DocumentBuilder()
     .setTitle('SkinSight')
@@ -15,6 +18,10 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs/v1', app, document);
-  await app.listen(5000);
+
+  app.use(helmet());
+/*   app.use(cookieParser());
+  app.use(csurf({ cookie: true })); */
+  app.listen(5000);
 }
 bootstrap();

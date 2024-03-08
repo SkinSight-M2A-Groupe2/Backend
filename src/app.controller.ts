@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SupabaseService } from './auth/supabase.service';
 @Controller()
@@ -11,6 +11,16 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('/csrf')
+  getCsrfToken(@Req() req): any {
+    const csrfToken = req.csrfToken();
+    console.log(csrfToken);
+
+    return {
+      token: csrfToken,
+    };
   }
 
   @Get('/usertest')

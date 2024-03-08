@@ -11,10 +11,17 @@ import { UsersModule } from './users/users.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { DisponibilityModule } from './disponibility/disponibility.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   controllers: [AppController],
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60,
+        limit: 10,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -31,6 +38,10 @@ import { AppointmentsModule } from './appointments/appointments.module';
     {
       provide: APP_GUARD,
       useClass: SupabaseGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     AppService,
   ],
