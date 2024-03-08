@@ -47,13 +47,30 @@ export class DisponibilityService {
 
     return data;
   }
-  async createByProfessionalId(
-    userId: string,
-    createDisponibilityDto: CreateDisponibilityDto,
-  ): Promise<any> {}
-
+  
+  async findAllByProfessional(id: number) {
+    const { data, error } = await this.supabase
+      .from('disponibility')
+      .select('*')
+      .eq('id_professional', id);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+  
   async findAll() {
     const { data, error } = await this.supabase.from('disponibility').select('*');
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  }
+  async findOne(id: string) {
+    const { data, error } = await this.supabase
+      .from('disponibility')
+      .select('*')
+      .eq('id', id);
     if (error) {
       throw new Error(error.message);
     }
