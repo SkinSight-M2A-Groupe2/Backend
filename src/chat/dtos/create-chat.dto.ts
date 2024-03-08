@@ -4,11 +4,14 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateChatDto {
   @AutoMap()
   @ApiProperty()
-  id_professional: string;
-
-
+  user_id: number;
   @AutoMap()
   @ApiProperty()
-  id_patient: string;
-
+  professional_id: number;
+  @AutoMap()
+  @ApiProperty()
+  message: string;
+  @AutoMap()
+  @ApiProperty()
+  status: string;
 }

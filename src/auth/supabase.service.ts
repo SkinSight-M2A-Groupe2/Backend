@@ -28,6 +28,8 @@ export class SupabaseService {
       {
         auth: {
           persistSession: false,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
         },
         global: {
           headers: {
@@ -38,6 +40,7 @@ export class SupabaseService {
         },
       },
     );
+    //console.log('clientInstance', this.clientInstance);
     return this.clientInstance;
   }
 }

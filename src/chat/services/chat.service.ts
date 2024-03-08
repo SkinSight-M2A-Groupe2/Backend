@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from 'src/auth/supabase.service';
+import { CreateChatDto } from '../dtos/create-chat.dto';
 
 @Injectable()
 export class ChatService {
@@ -7,27 +8,27 @@ export class ChatService {
   constructor(private readonly SupabaseService: SupabaseService) {
     this.initSupabase();
   }
+
   private async initSupabase() {
     this.supabase = await this.SupabaseService.getClient();
+    //console.log('supabase', this.supabase);
     return this.supabase;
   }
 
-  // creer un chat + salon de discussion que medecin avec un patient
-  async create(userId: bigint, createChatDto: any): Promise<any> {
-    const { data: professionalData, error: professionalError } =
-      await this.supabase
-        .from('professionals')
-        .select('id')
-        .eq('profile_id', userId)
-        .single();
-    if (professionalError) {
-      throw new Error(professionalError.message);
+  async create(createChatDto: CreateChatDto): Promise<any> {
+    const { data, error } = await this.supabase
+      .from('chats')
+      .insert(createChatDto);
+    if (error) {
+      throw new Error(error.message);
     }
-    if (!professionalData) {
-      throw new Error('Professional not found for the given userId');
-    }
-    const professionalId = professionalData.id;
-    const { data, error } = await this.supabase.from('chat').insert();
+    return data;
+  }
+  async findAllByUser(id: number) {
+    const { data, error } = await this.supabase
+      .from('chats')
+      .select('*')
+      .eq('user_id', id);
     if (error) {
       throw new Error(error.message);
     }

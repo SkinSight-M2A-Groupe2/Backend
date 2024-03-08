@@ -13,6 +13,7 @@ export class ProfessionalService {
 
   private async initSupabase() {
     this.supabase = await this.SupabaseService.getClient();
+    //console.log('supabase', this.supabase);
     return this.supabase;
   }
 

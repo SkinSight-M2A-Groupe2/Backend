@@ -21,7 +21,7 @@ export class UsersController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
-  @Get()
+  @Get('/')
   @UseGuards(SupabaseGuard) // Apply SupabaseStrategy to this route
   findByJwt(@Req() req: any) {
     console.log('req', req.user.sub);

@@ -22,6 +22,7 @@ async function bootstrap() {
   app.use(helmet());
 /*   app.use(cookieParser());
   app.use(csurf({ cookie: true })); */
-  app.listen(5000);
+  app.enableCors();
+  await app.listen(5000);
 }
 bootstrap();
