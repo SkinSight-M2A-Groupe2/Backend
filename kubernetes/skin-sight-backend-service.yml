@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: skin-sight-backend-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     # expose the pod with this label to the outside world (review the deployment file)
     app: skin-sight-backend
@@ -13,4 +13,6 @@ spec:
       port: 5000 # port of the NodePort Service
       targetPort: 5000 # port of the express app in the pod
 
-# kubectl apply -f skin-sight-backend-service.yml
+# kubectl apply -f ./kubernetes/skin-sight-backend-service.yml
+
+# kubectl delete -f ./kubernetes/skin-sight-backend-service.yml
