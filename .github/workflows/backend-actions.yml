@@ -166,4 +166,4 @@ jobs:
                     gcloud auth configure-docker
                     docker-compose -f docker-compose.back.dev.yml build
                     docker tag backend_skin-sight-backend:latest europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
-                    docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository
+                    docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
