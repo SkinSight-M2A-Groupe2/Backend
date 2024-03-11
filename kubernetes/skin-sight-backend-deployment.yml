@@ -9,7 +9,7 @@ metadata:
   name: skin-sight-backend-deployment
 spec:
   # how many Pods to create and manage
-  replicas: 3
+  replicas: 1
   # manage all pods created with label 'app: skin-sight-backend'
   selector:
     matchLabels:
@@ -23,7 +23,9 @@ spec:
       containers:
         - name: skin-sight-backend
           # create a container from the latest version of the image
-          image: luluberlute/backend_skin-sight-backend:latest
+          # image: luluberlute/backend_skin-sight-backend:latest
+          image: backend-skin-sight-backend:latest
+          imagePullPolicy: IfNotPresent
           envFrom: 
             - secretRef:
                 name: supabase-secrets
