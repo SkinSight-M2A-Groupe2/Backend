@@ -178,7 +178,12 @@ jobs:
               with:
                 version: 'latest'  # or specify a specific kubectl version 
               id: install
+
+            - name: create kubernetes secrets from env file
+              run: |
+                  kubectl create secret generic supabase-secrets --from-file=./.env
+                  kubectl get secrets
               
-            - name: try to apply kustomize
-              run: | 
-                kubectl apply -k ./kubernetes
+            # - name: try to apply kustomize
+            #   run: | 
+            #     kubectl apply -k ./kubernetes
