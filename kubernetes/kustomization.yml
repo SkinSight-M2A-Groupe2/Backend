@@ -6,4 +6,4 @@ resources:
 secretGenerator:
 - name: supabase-secrets
   files:
-  - .env
+  - ../.env
