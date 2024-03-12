@@ -20,6 +20,7 @@ spec:
       labels:
         app: skin-sight-backend
     spec: # like the pod config file
+      automountServiceAccountToken: false
       containers:
         - name: skin-sight-backend
           # create a container from the latest version of the image
