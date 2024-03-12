@@ -161,6 +161,7 @@ jobs:
               with:
                 project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
                 service_account_key: ${{ secrets.GOOGLE_CLOUD_APPLICATION_CREDENTIALS }}
+                install_components: 'gke-gcloud-auth-plugin'
                 export_default_credentials: true
             
             - name: Build the Docker image with docker-compose
@@ -173,18 +174,25 @@ jobs:
                   docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
 
               # https://github.com/Azure/setup-kubectl
-            - name: Set up kubectl
-              uses: azure/setup-kubectl@v1
-              with:
-                version: 'latest'  # or specify a specific kubectl version 
-              id: install
+            # - name: Set up kubectl
+            #   uses: azure/setup-kubectl@v1
+            #   with:
+            #     version: 'latest'  # or specify a specific kubectl version 
+            #   id: install
 
-            - name: create kubernetes secrets from env file
-              run: |
-                  kubectl config view
-                  kubectl create secret generic supabase-secrets --from-file=.env
-                  kubectl get secrets
+            # - name: create kubernetes secrets from env file
+            #   run: |
+            #       kubectl config view
+            #       kubectl create secret generic supabase-secrets --from-file=.env
+            #       kubectl get secrets
               
             # - name: try to apply kustomize
             #   run: | 
             #     kubectl apply -k ./kubernetes
+
+            - name: deploy to gke
+              run: |
+                gcloud container clusters get-credentials skin-sight-cluster --region europe-west9
+                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/$GOOGLE_CLOUD_PROJECT_ID/g" skin-sight-backend-deployment.yml
+                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/$GOOGLE_CLOUD_PROJECT_ID/g" skin-sight-backend-secrets.yml
+                kubectl apply -f skin-sight-backend-secrets.yml -f skin-sight-backend-deployment.yml
