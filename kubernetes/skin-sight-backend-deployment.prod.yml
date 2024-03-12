@@ -9,7 +9,7 @@ metadata:
   name: skin-sight-backend-deployment
 spec:
   # how many Pods to create and manage
-  replicas: 1
+  replicas: 3
   # manage all pods created with label 'app: skin-sight-backend'
   selector:
     matchLabels:
