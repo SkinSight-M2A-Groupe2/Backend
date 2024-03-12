@@ -162,3 +162,7 @@ jobs:
                   docker-compose -f docker-compose.back.dev.yml build
                   docker tag backend_skin-sight-backend:latest europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
                   docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
+
+            - name: kustomize secrets
+              run: | 
+                  kubectl apply -k ./kubernetes/kustomization.yml
