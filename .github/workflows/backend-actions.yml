@@ -36,9 +36,7 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                 name: env
-                path: |
-                    .env
-                    kubernetes/.env
+                path: .env
 
     ################################################################################     
 
@@ -154,6 +152,7 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                 name: env
+                path: ./kubernetes
 
             - name: install gcloud CLI
               uses: google-github-actions/setup-gcloud@v0
