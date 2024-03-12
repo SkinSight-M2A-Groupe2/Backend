@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: supabase-secrets
+type: Opaque
+data:
+  SUPABASE_JWT_SECRET: b01jeE4vSTN1dzBBMWlVQnBHRTBwSGJTQWo1RGZvSzVFQ3I5UkRPSkxHQlQrVEkrenVubW14T2I4S0VnWDI1RGNRYTgxVmRtMXV4Y3djdXdCazFJMXc9PQ==
+  SUPABASE_API_URL: aHR0cHM6Ly9rYmFtdHdpamd0YnB5ZHF1emNuZC5zdXBhYmFzZS5jby8=
+  SUPABASE_ANON_KEY: ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW10aVlXMTBkMmxxWjNSaWNIbGtjWFY2WTI1a0lpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzTURjME56UTRORFVzSW1WNGNDSTZNakF5TXpBMU1EZzBOWDAuMV81TVZDWjhxZ18yZmN1U3V3SlRlaGgtbDZmdDNTYjhUQktwSGgzWDFJOA==
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skin-sight-backend-deployment
+spec:
+  # how many Pods to create and manage
+  replicas: 1
+  # manage all pods created with label 'app: skin-sight-backend'
+  selector:
+    matchLabels:
+      app: skin-sight-backend
+  template:
+    metadata:
+      # attach the label 'app: skin-sight-backend' to all the pods we will make
+      labels:
+        app: skin-sight-backend
+    spec: # like the pod config file
+      containers:
+        - name: skin-sight-backend
+          # create a container from the latest version of the image
+          # image: luluberlute/backend_skin-sight-backend:latest
+          image: backend-skin-sight-backend:latest
+          imagePullPolicy: IfNotPresent
+          envFrom: 
+            - secretRef:
+                name: supabase-secrets
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: skin-sight-backend-service
+spec:
+  type: LoadBalancer
+  selector:
+    # expose the pod with this label to the outside world (review the deployment file)
+    app: skin-sight-backend
+  ports:
+    - name: skin-sight-backend # name of the service
+      protocol: TCP
+      port: 5000 # port of the NodePort Service
+      targetPort: 5000 # port of the express app in the pod
