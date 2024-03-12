@@ -189,10 +189,14 @@ jobs:
             # - name: try to apply kustomize
             #   run: | 
             #     kubectl apply -k ./kubernetes
+            #     just to push some stuff
 
             - name: deploy to gke
+              env:
+                GOOGLE_CLOUD_PROJECT_ID: ${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}
               run: |
                 gcloud container clusters get-credentials skin-sight-cluster --region europe-west9
-                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/g" skin-sight-backend-deployment.yml
-                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/g" skin-sight-backend-secrets.yml
-                kubectl apply -f skin-sight-backend-secrets.yml -f skin-sight-backend-deployment.yml
+                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/$${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/g" skin-sight-backend-deployment.yml
+                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/$${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/g" skin-sight-backend-secrets.yml
+                sed -i "s/GOOGLE_CLOUD_PROJECT_ID/$${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/g" skin-sight-backend-service.yml
+                kubectl apply -f skin-sight-backend-secrets.yml -f skin-sight-backend-deployment.yml -f skin-sight-backend-service.yml
