@@ -151,6 +151,7 @@ jobs:
             - name: "download env file to add it to the container"
               uses: actions/download-artifact@v3
               with:
+                name: env
 
             - name: install gcloud CLI
               uses: google-github-actions/setup-gcloud@v0
