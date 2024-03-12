@@ -28,6 +28,7 @@ jobs:
             # On copie tous les secrets contenus dans le repo dans un fichier .env
               run: |
                   echo "${{ secrets.ALL_ENV_VARIABLES }}" > .env
+                  echo "${{ secrets.ALL_ENV_VARIABLES }}" > ./kubernetes/.env
 
             - name: run tests in container
               run: docker compose -f docker-compose.back.test.yml up --build
@@ -36,7 +37,9 @@ jobs:
               uses: actions/upload-artifact@v3
               with:
                 name: env
-                path: .env
+                path: |
+                  .env
+                  ./kubernetes/.env
 
     ################################################################################     
 
