@@ -1,0 +1,54 @@
+# A Deployment is a Kubernetes object responsible for managing one or multiple pods where containers live.
+# The deployment is responsible for auto restarting a pod if it crashed.
+# Also it is responsible for updating the pods in case we updated the code inside the container.
+
+# Which version of the Kubernetes API you're using to create this object
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skin-sight-backend-deployment
+spec:
+  # how many Pods to create and manage
+  replicas: 1
+  # manage all pods created with label 'app: skin-sight-backend'
+  selector:
+    matchLabels:
+      app: skin-sight-backend
+  template:
+    metadata:
+      # attach the label 'app: skin-sight-backend' to all the pods we will make
+      labels:
+        app: skin-sight-backend
+    spec: # like the pod config file
+      containers:
+        - name: skin-sight-backend
+          # create a container from the latest version of the image
+          # image: luluberlute/backend_skin-sight-backend:latest
+          image: backend-skin-sight-backend:latest
+          imagePullPolicy: IfNotPresent
+          envFrom: 
+            - secretRef:
+                name: supabase-secrets
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000
+      
+
+# command for launching the deployment
+# kubectl apply -f skin-sight-backend-deployment.yml
+
+# List running deployments:
+# kubectl get deployments
+
+# Print some info about the running pod:
+# kubectl describe deployment skin-sight-backend-deployment
+
+# Delete a Deployment:
+# kubectl delete deployment <deployment name>
+
+# kubectl apply -f ./kubernetes/skin-sight-backend-service.yml -f ./kubernetes/skin-sight-backend-secrets.yml -f kubernetes/skin-sight-backend-deployment.yml 
+
+# kubectl delete -f ./kubernetes/skin-sight-backend-service.yml -f ./kubernetes/skin-sight-backend-secrets.yml -f kubernetes/skin-sight-backend-deployment.yml
