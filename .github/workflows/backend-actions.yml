@@ -169,6 +169,7 @@ jobs:
                   docker tag backend_skin-sight-backend:latest europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
                   docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
 
+              # https://github.com/Azure/setup-kubectl
             - name: Set up kubectl
               uses: azure/setup-kubectl@v1
               with:
@@ -177,4 +178,4 @@ jobs:
               
             - name: Verify kubectl version
               run: | 
-                kubectl version --short --client
+                kubectl version
