@@ -178,4 +178,4 @@ jobs:
               
             - name: try to apply kustomize
               run: | 
-                kubectl apply -k ./kubernetes/kustomization.yml
+                kubectl apply -k .env
