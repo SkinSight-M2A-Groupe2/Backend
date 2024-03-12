@@ -169,7 +169,12 @@ jobs:
                   docker tag backend_skin-sight-backend:latest europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
                   docker push europe-west9-docker.pkg.dev/${{ secrets.GOOGLE_CLOUD_PROJECT_ID }}/skin-sight-docker-repository/backend_skin-sight-backend:latest
 
-            - name: kustomize secrets
+            - name: Set up kubectl
+              uses: azure/setup-kubectl@v1
+              with:
+                version: 'latest'  # or specify a specific kubectl version 
+              id: install
+              
+            - name: Verify kubectl version
               run: | 
-                  kubectl version --short --client
-                  kubectl apply -k ./kubernetes/kustomization.yml
+                kubectl version --short --client
