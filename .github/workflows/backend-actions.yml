@@ -176,6 +176,6 @@ jobs:
                 version: 'latest'  # or specify a specific kubectl version 
               id: install
               
-            - name: Verify kubectl version
+            - name: try to apply kustomize
               run: | 
-                kubectl version
+                kubectl apply -k ./kubernetes/kustomization.yml
