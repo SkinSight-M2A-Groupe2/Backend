@@ -181,7 +181,7 @@ jobs:
 
             - name: create kubernetes secrets from env file
               run: |
-                  kubectl create secret generic supabase-secrets --from-file=./.env
+                  kubectl create secret generic supabase-secrets --from-file=.env
                   kubectl get secrets
               
             # - name: try to apply kustomize
